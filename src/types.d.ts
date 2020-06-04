@@ -28,3 +28,7 @@ export type MovieType = {
         Website: string,
         Response: string
 }
+
+export type StoreStateType = {
+    movies: MovieType[]
+}
