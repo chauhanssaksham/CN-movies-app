@@ -4,6 +4,7 @@ import Navbar from './components/Navbar/Navbar'
 import MovieCard from './components/MovieCard/MovieCard'
 import { Store } from 'redux';
 import { MovieType } from './types';
+import { addMovies } from './actions';
 
 interface Props{
     store: Store<MovieType[]>
@@ -16,10 +17,7 @@ class App extends React.Component<Props, object> {
         store.subscribe(()=>{
             this.forceUpdate();
         });
-        this.props.store.dispatch({
-            type:'ADD_MOVIES',
-            movies: data
-        });
+        this.props.store.dispatch(addMovies(data));
     }
 
     render(){
