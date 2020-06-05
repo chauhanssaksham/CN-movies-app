@@ -3,7 +3,7 @@ import {data} from './data';
 import Navbar from './components/Navbar/Navbar'
 import MovieCard from './components/MovieCard/MovieCard'
 import { Store } from 'redux';
-import { MovieType, StoreStateType } from './types';
+import { StoreStateType, MovieType } from './types';
 import { addMovies } from './actions';
 
 interface Props{
@@ -20,6 +20,13 @@ class App extends React.Component<Props, object> {
         this.props.store.dispatch(addMovies(data));
     }
 
+    isMovieFavorite = (movie: MovieType):boolean => {
+        const {favorites} = this.props.store.getState();
+        const index = favorites.indexOf(movie);
+
+        return index !== -1;
+    }
+
     render(){
         const {list} = this.props.store.getState();
 
@@ -34,7 +41,11 @@ class App extends React.Component<Props, object> {
                 </div>
                 <div className="list">
                     {list.map((movie: any, index:any) => (
-                        <MovieCard movie={movie} key={index} />
+                        <MovieCard 
+                            dispatch={this.props.store.dispatch} 
+                            movie={movie} 
+                            key={index} 
+                            isFavourite={this.isMovieFavorite} />
                     ))}
                 </div>
             </div>
