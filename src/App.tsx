@@ -9,9 +9,17 @@ import { addMovies } from './actions';
 interface Props{
     store: Store<StoreStateType>
 }
+interface State{
+    currentList: 'list'|'favorites'
+}
 
-class App extends React.Component<Props, object> {
-
+class App extends React.Component<Props, State> {
+    constructor(props: Props){
+        super(props);
+        this.state = {
+            currentList:'list'
+        }
+    }
     componentDidMount(){
         const {store} = this.props;
         store.subscribe(()=>{
@@ -26,9 +34,20 @@ class App extends React.Component<Props, object> {
 
         return index !== -1;
     }
+    tabToFavorite = () =>{
+        this.setState({
+            currentList: 'favorites'
+        })
+    }
+    tabToMovies = () =>{
+        this.setState({
+            currentList: 'list'
+        })
+    }
+
 
     render(){
-        const {list} = this.props.store.getState();
+        const moviesToShow = (this.state.currentList === 'list')?(this.props.store.getState().list):(this.props.store.getState().favorites);
 
         console.log(this.props.store.getState());
         return (
@@ -36,11 +55,11 @@ class App extends React.Component<Props, object> {
             <Navbar />
             <div className="main">
                 <div className="tabs">
-                    <div className="tab">Movies</div>
-                    <div className="tab">Favourites</div>
+                    <div onClick={this.tabToMovies} className="tab">Movies</div>
+                    <div onClick={this.tabToFavorite} className="tab">Favourites</div>
                 </div>
                 <div className="list">
-                    {list.map((movie: any, index:any) => (
+                    {moviesToShow.map((movie: any, index:any) => (
                         <MovieCard 
                             dispatch={this.props.store.dispatch} 
                             movie={movie} 
