@@ -1,5 +1,5 @@
 import { MovieType } from "../types";
-import { AnyAction } from "redux";
+import { AnyAction, ActionCreator } from "redux";
 
 export const ADD_MOVIES = 'ADD_MOVIES';
 export type ADD_MOVIES = typeof ADD_MOVIES;

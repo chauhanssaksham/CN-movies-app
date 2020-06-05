@@ -30,5 +30,6 @@ export type MovieType = {
 }
 
 export type StoreStateType = {
-    movies: MovieType[]
+    list: MovieType[],
+    favorites: MovieType[]
 }

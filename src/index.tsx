@@ -6,9 +6,9 @@ import {createStore, Store} from 'redux';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 import movies from './reducers'
-import { MovieType } from './types.d';
+import { StoreStateType } from './types.d';
 
-const store:Store<MovieType[]> = createStore(movies);
+const store:Store<StoreStateType> = createStore(movies);
 
 ReactDOM.render(
   <React.StrictMode>
