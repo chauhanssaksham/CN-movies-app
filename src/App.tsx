@@ -10,14 +10,14 @@ interface Props{
     store: Store<StoreStateType>
 }
 interface State{
-    currentList: 'list'|'favorites'
+    showFavorites: boolean
 }
 
 class App extends React.Component<Props, State> {
     constructor(props: Props){
         super(props);
         this.state = {
-            currentList:'list'
+            showFavorites:false
         }
     }
     componentDidMount(){
@@ -34,20 +34,15 @@ class App extends React.Component<Props, State> {
 
         return index !== -1;
     }
-    tabToFavorite = () =>{
-        this.setState({
-            currentList: 'favorites'
-        })
-    }
-    tabToMovies = () =>{
-        this.setState({
-            currentList: 'list'
-        })
+    toggleShowFavorites = () =>{
+        this.setState(prevState => ({
+            showFavorites:!prevState.showFavorites
+        }));
     }
 
 
     render(){
-        const moviesToShow = (this.state.currentList === 'list')?(this.props.store.getState().list):(this.props.store.getState().favorites);
+        const moviesToShow = (!this.state.showFavorites)?(this.props.store.getState().list):(this.props.store.getState().favorites);
 
         console.log(this.props.store.getState());
         return (
@@ -55,17 +50,19 @@ class App extends React.Component<Props, State> {
             <Navbar />
             <div className="main">
                 <div className="tabs">
-                    <div onClick={this.tabToMovies} className="tab">Movies</div>
-                    <div onClick={this.tabToFavorite} className="tab">Favourites</div>
+                    <div onClick={this.toggleShowFavorites} className={`tab ${this.state.showFavorites?'':'active-tabs'}`}>Movies</div>
+                    <div onClick={this.toggleShowFavorites} className={`tab ${this.state.showFavorites?'active-tabs':''}`}>Favourites</div>
                 </div>
                 <div className="list">
-                    {moviesToShow.map((movie: any, index:any) => (
-                        <MovieCard 
-                            dispatch={this.props.store.dispatch} 
-                            movie={movie} 
-                            key={index} 
-                            isFavourite={this.isMovieFavorite} />
-                    ))}
+                    {moviesToShow.length === 0? (<div>There are no movies in this list...</div>): 
+                        moviesToShow.map((movie: any, index:any) => (
+                            <MovieCard 
+                                dispatch={this.props.store.dispatch} 
+                                movie={movie} 
+                                key={index} 
+                                isFavourite={this.isMovieFavorite} />
+                        ))
+                    }
                 </div>
             </div>
             </div>
