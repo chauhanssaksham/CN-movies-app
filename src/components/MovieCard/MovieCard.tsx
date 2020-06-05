@@ -1,6 +1,6 @@
 import React, { Component, Dispatch } from 'react'
 import {MovieType } from '../../types'
-import {addFavorite} from '../../actions'
+import {addFavorite, removeFavorite} from '../../actions'
 import { AnyAction } from 'redux';
 
 export interface Props {
@@ -16,8 +16,8 @@ class MovieCard extends Component<Props, object> {
         this.props.dispatch(addFavorite(movie));
     }
     handleUnFavoriteClick = ()=>{
-        // const {movie} = this.props;
-        // this.props.dispatch(addFavorite(movie));
+        const {movie} = this.props;
+        this.props.dispatch(removeFavorite(movie));
     }
 
 

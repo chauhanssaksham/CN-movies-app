@@ -1,4 +1,4 @@
-import { ADD_MOVIES, ADD_FAVORITE } from "../actions";
+import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE } from "../actions";
 import { StoreStateType } from "../types";
 import { AnyAction } from "redux";
 
@@ -16,11 +16,16 @@ export default function movies(state = initalMoviesState, action: AnyAction):Sto
             }
         case ADD_FAVORITE:
             return {
-                ...state, 
+                ...state,
                 favorites: [
                     action.movie,
                     ...state.favorites
                 ]
+            }
+        case REMOVE_FAVORITE:
+            return {
+                ...state,
+                favorites: state.favorites.filter(movie => movie !== action.movie)
             }
         default:
             return state;
