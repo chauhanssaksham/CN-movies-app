@@ -3,11 +3,11 @@ import {data} from './data';
 import Navbar from './components/Navbar/Navbar'
 import MovieCard from './components/MovieCard/MovieCard'
 import { Store } from 'redux';
-import { StoreStateType, MovieType } from './types';
+import { RootStateType, MovieType } from './types';
 import { addMovies } from './actions';
 
 interface Props{
-    store: Store<StoreStateType>
+    store: Store<RootStateType>
 }
 interface State{
     showFavorites: boolean
@@ -29,7 +29,8 @@ class App extends React.Component<Props, State> {
     }
 
     isMovieFavorite = (movie: MovieType):boolean => {
-        const {favorites} = this.props.store.getState();
+        const {movies} = this.props.store.getState();
+        const {favorites} = movies;
         const index = favorites.indexOf(movie);
 
         return index !== -1;
@@ -42,7 +43,8 @@ class App extends React.Component<Props, State> {
 
 
     render(){
-        const moviesToShow = (!this.state.showFavorites)?(this.props.store.getState().list):(this.props.store.getState().favorites);
+        const {movies} = this.props.store.getState();
+        const moviesToShow = (!this.state.showFavorites)?(movies.list):(movies.favorites);
 
         console.log(this.props.store.getState());
         return (

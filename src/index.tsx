@@ -5,10 +5,10 @@ import {createStore, Store} from 'redux';
 
 import * as serviceWorker from './serviceWorker';
 import './index.css';
-import movies from './reducers'
-import { StoreStateType } from './types.d';
+import rootReducer from './reducers'
+import { RootStateType } from './types.d';
 
-const store:Store<StoreStateType> = createStore(movies);
+const store:Store<RootStateType> = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>

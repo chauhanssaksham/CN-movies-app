@@ -1,13 +1,13 @@
 import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE } from "../actions";
-import { StoreStateType } from "../types";
+import { MoviesStateType, SearchStateType, RootStateType } from "../types";
 import { AnyAction } from "redux";
 
-const initalMoviesState :StoreStateType = {
+const initialMoviesState :MoviesStateType = {
     list: [],
     favorites: []
 }
 
-export default function movies(state = initalMoviesState, action: AnyAction):StoreStateType{
+export function movies(state = initialMoviesState, action: AnyAction):MoviesStateType{
     switch(action.type){
         case ADD_MOVIES:
             return {
@@ -29,5 +29,25 @@ export default function movies(state = initalMoviesState, action: AnyAction):Sto
             }
         default:
             return state;
+    }
+}
+
+const initialSearchState: SearchStateType = {
+    result: null
+}
+
+export function search(state = initialSearchState, action:AnyAction): SearchStateType{
+    return state;
+}
+
+const initalRootState:RootStateType = {
+    movies: initialMoviesState,
+    search: initialSearchState
+};
+
+export default function rootReducer(state = initalRootState, action:AnyAction):RootStateType{
+    return {
+        movies: movies(state.movies, action),
+        search: search(state.search, action)
     }
 }

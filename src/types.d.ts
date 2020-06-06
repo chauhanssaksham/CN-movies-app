@@ -29,7 +29,16 @@ export type MovieType = {
         Response: string
 }
 
-export type StoreStateType = {
+export type MoviesStateType = {
     list: MovieType[],
     favorites: MovieType[]
+}
+
+export type SearchStateType = {
+    result: null | MovieType
+}
+
+export type RootStateType = {
+    movies: MoviesStateType,
+    search: SearchStateType
 }
