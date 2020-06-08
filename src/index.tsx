@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {createStore, Store} from 'redux';
+import {createStore, Store, applyMiddleware} from 'redux';
 
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 import rootReducer from './reducers'
 import { RootStateType } from './types.d';
+import logger from './middleware/logger';
 
-const store:Store<RootStateType> = createStore(rootReducer);
+const store:Store<RootStateType> = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>
