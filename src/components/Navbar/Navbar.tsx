@@ -1,6 +1,6 @@
 import React, { Component, ChangeEvent } from 'react'
 import { Dispatch, AnyAction } from 'redux';
-import { handleMovieSearch } from '../../actions';
+import { handleMovieSearch, addMovieToList } from '../../actions';
 import { SearchStateType } from '../../types';
 
 interface Props{
@@ -26,7 +26,7 @@ class Navbar extends Component<Props, State>{
     }
 
     handleAddToMovies = (movie: any) => {
-        // this.props.dispatch(addToMovies(movie));
+        this.props.dispatch(addMovieToList(movie));
         console.log('To add: ', movie);
         this.setState(initialState);
     }

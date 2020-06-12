@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE, MoviesActionType, ADD_SEARCH_RESULT, SearchActionType } from "../actions";
+import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE, MoviesActionType, ADD_SEARCH_RESULT, SearchActionType, ADD_MOVIE_TO_LIST } from "../actions";
 import { MoviesStateType, SearchStateType } from "../types";
 
 const initialMoviesState :MoviesStateType = {
@@ -27,6 +27,11 @@ export function movies(state = initialMoviesState, action: MoviesActionType):Mov
                 ...state,
                 favorites: state.favorites.filter(movie => movie !== action.movie)
             }
+        case ADD_MOVIE_TO_LIST:
+            return {
+                ...state,
+                list: [action.movie, ...state.list]
+            }
         default:
             return state;
     }
@@ -42,6 +47,11 @@ export function search(state = initialSearchState, action:SearchActionType): Sea
             return {
                 ...state,
                 result: action.movie
+            }
+        case ADD_MOVIE_TO_LIST:
+            return {
+                ...state,
+                result: null
             }
         default:
             return state;
