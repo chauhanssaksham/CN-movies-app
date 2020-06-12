@@ -35,7 +35,7 @@ export type MoviesStateType = {
 }
 
 export type SearchStateType = {
-    result: null | MovieType
+    result: MovieType|null
 }
 
 export type RootStateType = {

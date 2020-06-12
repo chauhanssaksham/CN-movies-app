@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
-import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE, MoviesActionType } from "../actions";
+import { ADD_MOVIES, ADD_FAVORITE, REMOVE_FAVORITE, MoviesActionType, ADD_SEARCH_RESULT, SearchActionType } from "../actions";
 import { MoviesStateType, SearchStateType } from "../types";
-import { AnyAction } from "redux";
 
 const initialMoviesState :MoviesStateType = {
     list: [],
@@ -37,8 +36,16 @@ const initialSearchState: SearchStateType = {
     result: null
 }
 
-export function search(state = initialSearchState, action:AnyAction): SearchStateType{
-    return state;
+export function search(state = initialSearchState, action:SearchActionType): SearchStateType{
+    switch(action.type){
+        case ADD_SEARCH_RESULT:
+            return {
+                ...state,
+                result: action.movie
+            }
+        default:
+            return state;
+    }
 }
 
 // const initalRootState:RootStateType = {
