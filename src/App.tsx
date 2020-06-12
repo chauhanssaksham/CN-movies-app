@@ -49,7 +49,7 @@ class App extends React.Component<Props, State> {
         console.log(this.props.store.getState());
         return (
             <div className="App">
-            <Navbar />
+            <Navbar dispatch={this.props.store.dispatch}/>
             <div className="main">
                 <div className="tabs">
                     <div onClick={this.toggleShowFavorites} className={`tab ${this.state.showFavorites?'':'active-tabs'}`}>Movies</div>

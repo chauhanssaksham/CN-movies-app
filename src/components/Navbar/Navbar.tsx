@@ -1,12 +1,46 @@
-import React, { Component } from 'react'
+import React, { Component, ChangeEvent } from 'react'
+import { Dispatch, AnyAction } from 'redux';
+import { handleMovieSearch } from '../../actions';
 
-class Navbar extends Component {
+interface Props{
+    dispatch: Dispatch<AnyAction>
+}
+
+interface State{
+    searchText: string,
+    showSearchResults: boolean
+}
+
+const initialState:State = {
+    searchText: '',
+    showSearchResults: false
+}
+
+class Navbar extends Component<Props, State>{
+    constructor(props: Props){
+        super(props);
+
+        this.state = initialState;
+    }
+
+    handleSearch = () => {
+        const {searchText} = this.state;
+
+        this.props.dispatch(handleMovieSearch(searchText));
+    }
+
+    handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            searchText: e.currentTarget.value
+        });
+    }
+
     render() {
         return (
             <div className="nav">
                 <div className="search-container">
-                    <input type="text"/>
-                    <button className="search-btn">Search</button>
+                    <input type="text" onChange={this.handleChange}/>
+                    <button className="search-btn" onClick={this.handleSearch}>Search</button>
                 </div>
             </div>
         )
