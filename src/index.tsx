@@ -11,12 +11,15 @@ import logger from './middleware/logger';
 import thunk from 'redux-thunk';
 import { AppActions } from './actions';
 import { Provider } from 'react-redux';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 
 const store = createStore<RootStateType, AppActions, any, any>(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+        <CssBaseline />
         <App />
     </Provider>
   </React.StrictMode>,

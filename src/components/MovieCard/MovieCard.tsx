@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {MovieType, RootStateType } from '../../types'
 import {addFavorite, removeFavorite} from '../../actions'
 import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
 
 interface StateProps {
     
@@ -45,8 +46,8 @@ class MovieCard extends Component<Props, object> {
                     <div className="footer">
                         <div className="rating">{movie.imdbRating}</div>
                         {isFavourite?
-                        <div className="unfavourite-btn" onClick={this.handleUnFavoriteClick}>Unfavourite</div>:
-                        <div className="favourite-btn" onClick={this.handleFavoriteClick}>Favourite</div>
+                        <Button variant='contained' color='secondary' onClick={this.handleUnFavoriteClick}>Unfavourite</Button>:
+                        <Button variant='contained' color='primary' onClick={this.handleFavoriteClick}>Favourite</Button>
                         }
                     </div>
                 </div>

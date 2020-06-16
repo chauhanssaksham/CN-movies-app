@@ -76,7 +76,7 @@ class Navbar extends Component<Props, State>{
                                 <img src={result.Poster} alt="Search Pic"/>
                                 <div className="movie-info">
                                     <span>{result.Title}</span>
-                                    <button onClick={()=>this.handleAddToMovies(result)}>Add to Movies</button>
+                                    <button id="#search-btn" onClick={()=>this.handleAddToMovies(result)}>Add to Movies</button>
                                 </div>
                             </div>
                          </div>
