@@ -10,12 +10,15 @@ import { RootStateType } from './types.d';
 import logger from './middleware/logger';
 import thunk from 'redux-thunk';
 import { AppActions } from './actions';
+import { Provider } from 'react-redux';
 
 const store = createStore<RootStateType, AppActions, any, any>(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App store={store} />
+    <Provider store={store}>
+        <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

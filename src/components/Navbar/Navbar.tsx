@@ -1,12 +1,23 @@
 import React, { Component, ChangeEvent } from 'react'
-import { Dispatch, AnyAction } from 'redux';
 import { handleMovieSearch, addMovieToList } from '../../actions';
-import { SearchStateType } from '../../types';
+import { SearchStateType, RootStateType, MovieType } from '../../types';
+import { connect } from 'react-redux';
 
-interface Props{
-    dispatch: Dispatch<AnyAction>,
+interface StateProps{
     search: SearchStateType
 }
+
+
+interface DispatchProps{
+    handleMovieSearch: (searchText: string) => void,
+    addMovieToList: (movie: MovieType) => void
+}
+
+interface OwnProps{
+
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
 
 interface State{
     searchText: string,
@@ -26,7 +37,7 @@ class Navbar extends Component<Props, State>{
     }
 
     handleAddToMovies = (movie: any) => {
-        this.props.dispatch(addMovieToList(movie));
+        this.props.addMovieToList(movie);
         console.log('To add: ', movie);
         this.setState(initialState);
     }
@@ -34,7 +45,7 @@ class Navbar extends Component<Props, State>{
     handleSearch = () => {
         const {searchText} = this.state;
 
-        this.props.dispatch(handleMovieSearch(searchText));
+        this.props.handleMovieSearch(searchText);
     }
 
     handleChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -76,4 +87,15 @@ class Navbar extends Component<Props, State>{
     }
 }
 
-export default Navbar
+const mapStateToProps = (state: RootStateType):StateProps => {
+    return {
+        search: state.search
+    }
+}
+
+const mapDispatchToProps:DispatchProps = {
+    addMovieToList: addMovieToList,
+    handleMovieSearch: handleMovieSearch
+}
+
+export default connect<StateProps, DispatchProps, OwnProps, RootStateType>(mapStateToProps, mapDispatchToProps)(Navbar)

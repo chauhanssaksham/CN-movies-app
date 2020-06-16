@@ -2,13 +2,24 @@ import React from 'react';
 import {data} from './data';
 import Navbar from './components/Navbar/Navbar'
 import MovieCard from './components/MovieCard/MovieCard'
-import { Store } from 'redux';
-import { RootStateType, MovieType } from './types';
+import { RootStateType, MovieType, MoviesStateType } from './types';
 import { addMovies } from './actions';
+import { connect } from 'react-redux';
 
-interface Props{
-    store: Store<RootStateType>
+interface StateProps {
+    movies: MoviesStateType
 }
+
+interface DispatchProps{
+    addMovies: (data: MovieType[]) => void
+}
+
+interface OwnProps{
+
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
 interface State{
     showFavorites: boolean
 }
@@ -21,18 +32,13 @@ class App extends React.Component<Props, State> {
         }
     }
     componentDidMount(){
-        const {store} = this.props;
-        store.subscribe(()=>{
-            this.forceUpdate();
-        });
-        this.props.store.dispatch(addMovies(data));
+        this.props.addMovies(data);
     }
 
     isMovieFavorite = (movie: MovieType):boolean => {
-        const {movies} = this.props.store.getState();
+        const {movies} = this.props;
         const {favorites} = movies;
         const index = favorites.indexOf(movie);
-
         return index !== -1;
     }
     toggleShowFavorites = () =>{
@@ -43,13 +49,13 @@ class App extends React.Component<Props, State> {
 
 
     render(){
-        const {movies, search} = this.props.store.getState();
+        const {movies} = this.props;
         const moviesToShow = (!this.state.showFavorites)?(movies.list):(movies.favorites);
 
-        // console.log(this.props.store.getState());
+        // console.log(this.props.movies);
         return (
             <div className="App">
-            <Navbar dispatch={this.props.store.dispatch} search={search}/>
+            <Navbar />
             <div className="main">
                 <div className="tabs">
                     <div onClick={this.toggleShowFavorites} className={`tab ${this.state.showFavorites?'':'active-tabs'}`}>Movies</div>
@@ -59,10 +65,9 @@ class App extends React.Component<Props, State> {
                     {moviesToShow.length === 0? (<div>There are no movies in this list...</div>): 
                         moviesToShow.map((movie: any, index:any) => (
                             <MovieCard 
-                                dispatch={this.props.store.dispatch} 
                                 movie={movie} 
                                 key={index} 
-                                isFavourite={this.isMovieFavorite} />
+                                isFavourite={this.isMovieFavorite(movie)} />
                         ))
                     }
                 </div>
@@ -72,4 +77,14 @@ class App extends React.Component<Props, State> {
     }
 }
 
-export default App;
+const mapStateToProps = (state: RootStateType):StateProps => {
+    return {
+        movies: state.movies
+    }
+}
+
+const mapDispatchToProps:DispatchProps = {
+    addMovies
+}
+
+export default connect<StateProps, DispatchProps, OwnProps, RootStateType>(mapStateToProps ,mapDispatchToProps)(App);
